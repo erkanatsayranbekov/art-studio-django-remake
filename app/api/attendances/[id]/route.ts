@@ -11,30 +11,25 @@ export async function GET(
         id: parseInt(params.id),
       },
       include: {
-        customer: true,
-        group: true,
+        customer: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+        group: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
 
     if (!attendance) {
-      return NextResponse.json(
-        { error: 'Attendance record not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Attendance not found' }, { status: 404 });
     }
 
-    // Transform the data to include customer and group names
-    const transformedAttendance = {
-      id: attendance.id.toString(),
-      customerId: attendance.customerId.toString(),
-      customerName: `${attendance.customer.firstName} ${attendance.customer.lastName}`,
-      groupId: attendance.groupId.toString(),
-      groupName: attendance.group.name,
-      date: attendance.date.toISOString(),
-      isPresent: attendance.isPresent,
-    };
-
-    return NextResponse.json(transformedAttendance);
+    return NextResponse.json(attendance);
   } catch (error) {
     console.error('Error fetching attendance:', error);
     return NextResponse.json(
@@ -59,24 +54,9 @@ export async function PATCH(
       data: {
         isPresent,
       },
-      include: {
-        customer: true,
-        group: true,
-      },
     });
 
-    // Transform the data to include customer and group names
-    const transformedAttendance = {
-      id: attendance.id.toString(),
-      customerId: attendance.customerId.toString(),
-      customerName: `${attendance.customer.firstName} ${attendance.customer.lastName}`,
-      groupId: attendance.groupId.toString(),
-      groupName: attendance.group.name,
-      date: attendance.date.toISOString(),
-      isPresent: attendance.isPresent,
-    };
-
-    return NextResponse.json(transformedAttendance);
+    return NextResponse.json(attendance);
   } catch (error) {
     console.error('Error updating attendance:', error);
     return NextResponse.json(
