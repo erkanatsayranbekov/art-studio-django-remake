@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { NextRequest } from 'next/server';
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const attendance = await prisma.attendance.findUnique({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       include: {
         customer: {
@@ -40,16 +42,17 @@ export async function GET(
 }
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { isPresent } = body;
 
     const attendance = await prisma.attendance.update({
       where: {
-        id: parseInt(params.id),
+        id: parseInt(id),
       },
       data: {
         isPresent,
