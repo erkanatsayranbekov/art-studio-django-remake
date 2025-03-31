@@ -122,7 +122,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen p-8 p-8">
         <div className="text-red-500 text-center">
           <p className="text-lg font-medium">Ошибка загрузки данных</p>
           <p className="text-sm">{error}</p>
@@ -132,7 +132,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-8">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Посещаемость</h1>
         <Link

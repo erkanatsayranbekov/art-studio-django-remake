@@ -81,7 +81,7 @@ export default function EditAttendancePage({ params }: { params: Promise<{ id: s
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen p-8">
         <div className="text-red-500 text-center">
           <p className="text-lg font-medium">Ошибка загрузки данных</p>
           <p className="text-sm">{error}</p>
@@ -92,14 +92,14 @@ export default function EditAttendancePage({ params }: { params: Promise<{ id: s
 
   if (!attendance) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen p-8">
         <div className="text-gray-500">Запись не найдена</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-8">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Редактировать посещаемость</h1>
         <button
