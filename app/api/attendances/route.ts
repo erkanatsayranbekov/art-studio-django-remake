@@ -90,6 +90,7 @@ export async function POST(request: Request) {
             where: { id: existingAttendance.id },
             data: {
               isPresent: record.status === 'PRESENT',
+              status: record.status as 'PRESENT' | 'ABSENT' | 'EXCUSED',
             },
           });
         }
@@ -101,6 +102,7 @@ export async function POST(request: Request) {
             groupId,
             date: new Date(record.date),
             isPresent: record.status === 'PRESENT',
+            status: record.status as 'PRESENT' | 'ABSENT' | 'EXCUSED',
           },
         });
       })

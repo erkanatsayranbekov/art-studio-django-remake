@@ -9,9 +9,14 @@ import { use } from 'react';
 interface Attendance {
   id: string;
   customerId: string;
-  customerName: string;
+  customer: {
+    firstName: string;
+    lastName: string;
+  };
   groupId: string;
-  groupName: string;
+  group: {
+    name: string;
+  };
   date: string;
   isPresent: boolean;
 }
@@ -41,6 +46,7 @@ export default function EditAttendancePage({ params }: { params: Promise<{ id: s
     fetchAttendance();
   }, [resolvedParams.id]);
 
+  console.log(attendance);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!attendance) return;
@@ -116,11 +122,11 @@ export default function EditAttendancePage({ params }: { params: Promise<{ id: s
           <div className="space-y-2">
             <p className="text-gray-600">
               <span className="font-medium">Клиент:</span>{' '}
-              <span className="text-gray-900">{attendance.customerName}</span>
+              <span className="text-gray-900">{attendance.customer.firstName} {attendance.customer.lastName}</span>
             </p>
             <p className="text-gray-600">
               <span className="font-medium">Группа:</span>{' '}
-              <span className="text-gray-900">{attendance.groupName}</span>
+              <span className="text-gray-900">{attendance.group.name}</span>
             </p>
             <p className="text-gray-600">
               <span className="font-medium">Дата:</span>{' '}

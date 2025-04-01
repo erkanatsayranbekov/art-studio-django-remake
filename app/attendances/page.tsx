@@ -7,22 +7,23 @@ import Link from 'next/link';
 import { use } from 'react';
 
 interface Attendance {
-  id: string;
-  customerId: string;
+  id: number;
+  customerId: number;
   customerName: string;
-  groupId: string;
+  groupId: number;
   groupName: string;
   date: string;
   isPresent: boolean;
+  status: 'PRESENT' | 'ABSENT' | 'EXCUSED';
 }
 
 interface Group {
-  id: string;
+  id: number;
   name: string;
 }
 
 interface Customer {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
 }
@@ -34,7 +35,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
   const [error, setError] = useState<string | null>(null);
   const [selectedGroup, setSelectedGroup] = useState<string>('');
   const [selectedCustomer, setSelectedCustomer] = useState<string>('');
-  const [selectedMonth, setSelectedMonth] = useState<string>(new Date().getMonth().toString());
+  const [selectedMonth, setSelectedMonth] = useState<string>((new Date().getMonth()+1).toString());
   const [selectedYear, setSelectedYear] = useState<string>(new Date().getFullYear().toString());
   const [groups, setGroups] = useState<Group[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -45,6 +46,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
         const response = await fetch('/api/groups');
         if (!response.ok) throw new Error('Failed to fetch groups');
         const data = await response.json();
+        console.log('Fetched groups:', data);
         setGroups(data);
       } catch (err) {
         console.error('Error fetching groups:', err);
@@ -56,6 +58,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
         const response = await fetch('/api/customers');
         if (!response.ok) throw new Error('Failed to fetch customers');
         const data = await response.json();
+        console.log('Fetched customers:', data);
         setCustomers(data);
       } catch (err) {
         console.error('Error fetching customers:', err);
@@ -82,11 +85,14 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
           url += `?${params.toString()}`;
         }
 
+        console.log('Fetching attendances from:', url);
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch attendances');
         const data = await response.json();
+        console.log('Fetched attendances:', data);
         setAttendances(Array.isArray(data) ? data : []);
       } catch (err) {
+        console.error('Error fetching attendances:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
         setAttendances([]);
       } finally {
@@ -97,12 +103,31 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
     fetchAttendances();
   }, [selectedGroup, selectedCustomer, selectedMonth, selectedYear]);
 
-  const getStatusColor = (isPresent: boolean) => {
-    return isPresent ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+  console.log(attendances);
+  const getStatusColor = (status: 'PRESENT' | 'ABSENT' | 'EXCUSED') => {
+    switch (status) {
+      case 'PRESENT':
+        return 'bg-green-100 text-green-800';
+      case 'ABSENT':
+        return 'bg-red-100 text-red-800';
+      case 'EXCUSED':
+        return 'bg-yellow-100 text-yellow-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   };
 
-  const getStatusText = (isPresent: boolean) => {
-    return isPresent ? 'Присутствует' : 'Отсутствует';
+  const getStatusText = (status: 'PRESENT' | 'ABSENT' | 'EXCUSED') => {
+    switch (status) {
+      case 'PRESENT':
+        return 'Присутствует';
+      case 'ABSENT':
+        return 'Отсутствует';
+      case 'EXCUSED':
+        return 'Уважительная причина';
+      default:
+        return 'Неизвестно';
+    }
   };
 
   const months = [
@@ -156,7 +181,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             >
               <option value="">Все группы</option>
               {groups.map((group) => (
-                <option key={group.id} value={group.id}>
+                <option key={group.id} value={group.id.toString()}>
                   {group.name}
                 </option>
               ))}
@@ -174,7 +199,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             >
               <option value="">Все клиенты</option>
               {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
+                <option key={customer.id} value={customer.id.toString()}>
                   {customer.firstName} {customer.lastName}
                 </option>
               ))}
@@ -191,7 +216,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
               className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
             >
               {months.map((month, index) => (
-                <option key={index} value={index}>
+                <option key={index+1} value={(index+1).toString()}>
                   {month}
                 </option>
               ))}
@@ -251,17 +276,17 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
                       href={`/groups/${attendance.groupId}`}
-                      className="text-gray-900 hover:text-blue-600"
+                      className="text-gray-900 hover:text-purple-600"
                     >
                       {attendance.groupName}
                     </Link>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="text-gray-900 px-6 py-4 whitespace-nowrap">
                     {format(parseISO(attendance.date), 'd MMMM yyyy', { locale: ru })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(attendance.isPresent)}`}>
-                      {getStatusText(attendance.isPresent)}
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(attendance.status)}`}>
+                      {getStatusText(attendance.status)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

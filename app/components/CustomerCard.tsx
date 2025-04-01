@@ -13,6 +13,7 @@ interface CustomerCardProps {
   dateOfBirth: string;
   groupName: string;
   groupId: string;
+  attendanceCount: number;
 }
 
 export default function CustomerCard({
@@ -24,6 +25,7 @@ export default function CustomerCard({
   dateOfBirth,
   groupName,
   groupId,
+  attendanceCount,
 }: CustomerCardProps) {
   const formattedDate = dateOfBirth ? format(parseISO(dateOfBirth), 'd MMMM yyyy', { locale: ru }) : 'Не указана';
 
@@ -74,22 +76,6 @@ export default function CustomerCard({
           {phoneNumber}
         </div>
 
-        <div className="flex items-center text-sm text-gray-600">
-          <svg
-            className="h-4 w-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            />
-          </svg>
-          {email}
-        </div>
 
         <div className="flex items-center text-sm text-gray-600">
           <svg
@@ -125,6 +111,23 @@ export default function CustomerCard({
           <Link href={`/groups/${groupId}`} className="text-indigo-600 hover:text-indigo-900">
             {groupName}
           </Link>
+        </div>
+
+        <div className="flex items-center text-sm text-gray-600">
+          <svg
+            className="h-4 w-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+            />
+          </svg>
+          Посещено занятий: {attendanceCount}
         </div>
       </div>
     </div>

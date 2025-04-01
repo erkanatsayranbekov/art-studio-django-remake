@@ -31,17 +31,34 @@ export async function GET() {
     const customers = await prisma.customer.findMany({
       include: {
         group: true,
-        attendances: true,
       },
     });
 
-    // Add age calculation to each customer
-    const customersWithAge = customers.map((customer: { dateOfBirth: Date; }) => ({
+    // Get attendance counts for all customers
+    const attendanceCounts = await Promise.all(
+      customers.map(async (customer) => {
+        const typedCustomer = customer as any;
+        const count =  await prisma.attendance.count({
+          where: {
+            customerId: customer.id,
+            date: {
+              gte: typedCustomer.lastPaymentDate,
+              lte: new Date(),
+            },
+            isPresent: true,
+          },
+        });
+        return { customerId: customer.id, count };
+      })
+    );
+
+    // Combine customers data with attendance counts
+    const customersWithAttendanceCount = customers.map(customer => ({
       ...customer,
-      age: calculateAge(customer.dateOfBirth),
+      attendanceCount: attendanceCounts.find(ac => ac.customerId === customer.id)?.count || 0,
     }));
 
-    return NextResponse.json(customersWithAge);
+    return NextResponse.json(customersWithAttendanceCount);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch customers' }, { status: 500 });
   }

@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgres"
-  url      = "postgresql://postgres.ezvdwauapevbjgyolhfx:Xd40R8OaARsWebUW@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model User {
@@ -46,26 +46,34 @@ model Group {
 }
 
 model Customer {
-  id           Int          @id @default(autoincrement())
-  firstName    String       @map("first_name")
-  lastName     String       @map("last_name")
-  dateOfBirth  DateTime     @map("date_of_birth")
-  phoneNumber  String       @map("phone_number")
-  groupId      Int          @map("group_id")
-  group        Group        @relation(fields: [groupId], references: [id])
-  attendances  Attendance[]
+  id             Int          @id @default(autoincrement())
+  firstName      String       @map("first_name")
+  lastName       String       @map("last_name")
+  dateOfBirth    DateTime     @map("date_of_birth")
+  phoneNumber    String       @map("phone_number")
+  groupId        Int          @map("group_id")
+  lastPaymentDate DateTime    @default(now()) @map("last_payment_date")
+  group          Group        @relation(fields: [groupId], references: [id])
+  attendances    Attendance[]
 
   @@map("customers")
 }
 
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+}
+
 model Attendance {
-  id         Int      @id @default(autoincrement())
-  customerId Int      @map("customer_id")
-  groupId    Int      @map("group_id")
-  date       DateTime @map("date")
-  isPresent  Boolean  @default(false) @map("is_present")
-  customer   Customer @relation(fields: [customerId], references: [id])
-  group      Group    @relation(fields: [groupId], references: [id])
+  id         Int             @id @default(autoincrement())
+  customerId Int             @map("customer_id")
+  groupId    Int             @map("group_id")
+  date       DateTime        @map("date")
+  isPresent  Boolean         @default(false) @map("is_present")
+  status     AttendanceStatus @default(PRESENT) @map("status")
+  customer   Customer        @relation(fields: [customerId], references: [id])
+  group      Group           @relation(fields: [groupId], references: [id])
 
   @@unique([customerId, groupId, date])
   @@map("attendances")

@@ -43,8 +43,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaPalette className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Профессиональные преподаватели</h3>
-              <p className="text-gray-600">Опытные мастера своего дела</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Профессионал преподаватель</h3>
+              <p className="text-gray-600">Опытная мастер своего дела</p>
             </motion.div>
 
             <motion.div
@@ -76,7 +76,7 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaStar className="w-8 h-8 text-yellow-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Современное оборудование</h3>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900">Оборудование включено</h3>
               <p className="text-gray-600">Все необходимое для творчества</p>
             </motion.div>
           </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">
-            Наши направления
+            Направления студии
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <motion.div
@@ -96,7 +96,7 @@ export default function HomePage() {
             >
               <div className="h-48 bg-purple-200"></div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">Живопись</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">Живопись для детей</h3>
                 <p className="text-gray-600 mb-4">
                   Обучение различным техникам живописи для всех уровней
                 </p>
@@ -115,9 +115,9 @@ export default function HomePage() {
             >
               <div className="h-48 bg-blue-200"></div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">Скульптура</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">Проведение мероприятий</h3>
                 <p className="text-gray-600 mb-4">
-                  Работа с различными материалами и создание объемных форм
+                  Проведение мероприятий для детей и взрослых
                 </p>
                 <Link
                   href="/groups"
@@ -134,9 +134,9 @@ export default function HomePage() {
             >
               <div className="h-48 bg-green-200"></div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">Графика</h3>
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">Мастер-классы</h3>
                 <p className="text-gray-600 mb-4">
-                  Изучение техник рисунка и графического дизайна
+                  Арт-свидания, роспись мишек, девичники и многое другое
                 </p>
                 <Link
                   href="/groups"

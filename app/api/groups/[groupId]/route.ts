@@ -8,9 +8,7 @@ export async function GET(
 ) {
   try {
     const group = await prisma.group.findUnique({
-      where: {
-        id: Number(params?.groupId),
-      },
+      where: { id: parseInt(params.groupId) },
       include: {
         customers: true,
       },
@@ -20,7 +18,32 @@ export async function GET(
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
-    return NextResponse.json(group);
+    // Get attendance counts for all customers in the group
+    const attendanceCounts = await Promise.all(
+      group.customers.map(async (customer) => {
+        const count = await prisma.attendance.count({
+          where: {
+            customerId: customer.id,
+            date: {
+              lte: new Date(),
+            },
+            isPresent: true,
+          },
+        });
+        return { customerId: customer.id, count };
+      })
+    );
+
+    // Combine group data with attendance counts
+    const groupWithAttendanceCount = {
+      ...group,
+      customers: group.customers.map(customer => ({
+        ...customer,
+        attendanceCount: attendanceCounts.find(ac => ac.customerId === customer.id)?.count || 0,
+      })),
+    };
+
+    return NextResponse.json(groupWithAttendanceCount);
   } catch (error) {
     console.log(error);
     return NextResponse.json({ error: 'Failed to fetch group' }, { status: 500 });
@@ -48,7 +71,7 @@ export async function PUT(
 
     const group = await prisma.group.update({
       where: {
-        id: params.groupId,
+        id: Number(params.groupId),
       },
       data: {
         name: body.name,
@@ -77,7 +100,7 @@ export async function DELETE(
   try {
     const group = await prisma.group.delete({
       where: {
-        id: params.groupId,
+        id: Number(params.groupId),
       },
     });
 

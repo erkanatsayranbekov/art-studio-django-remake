@@ -15,6 +15,7 @@ interface Customer {
     id: string;
     name: string;
   };
+  attendanceCount: number;
 }
 
 export default function CustomersPage() {
@@ -100,6 +101,7 @@ export default function CustomersPage() {
                   dateOfBirth={customer.dateOfBirth}
                   groupName={customer.group.name}
                   groupId={customer.group.id}
+                  attendanceCount={customer.attendanceCount}
                 />
               );
             })}

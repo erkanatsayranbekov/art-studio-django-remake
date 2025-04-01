@@ -7,9 +7,10 @@ export function middleware(request: NextRequest) {
   const isGroupsPage = request.nextUrl.pathname === '/groups';
   const isGroupsApi = request.nextUrl.pathname.startsWith('/api/groups');
   const isGroupDetailPage = request.nextUrl.pathname.match(/^\/groups\/\d+$/);
+  const isHomePage = request.nextUrl.pathname === '/';
 
-  // Allow public access to groups page, group detail pages, and their API
-  if (isGroupsPage || isGroupsApi || isGroupDetailPage) {
+  // Allow public access to home page, groups page, group detail pages, and their API
+  if (isHomePage || isGroupsPage || isGroupsApi || isGroupDetailPage) {
     return NextResponse.next();
   }
 

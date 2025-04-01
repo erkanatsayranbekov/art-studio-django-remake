@@ -24,6 +24,7 @@ interface Group {
     phoneNumber: string;
     email: string;
     dateOfBirth: string;
+    attendanceCount: number;
   }[];
 }
 
@@ -211,6 +212,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
                     dateOfBirth={customer.dateOfBirth}
                     groupName={group.name}
                     groupId={group.id}
+                    attendanceCount={customer.attendanceCount}
                   />
                 ))}
               </div>
