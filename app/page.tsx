@@ -6,10 +6,8 @@ import { FaPalette, FaUsers, FaCalendarAlt, FaStar } from 'react-icons/fa';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[600px] bg-gradient-to-r from-purple-600 to-blue-500">
-        <div className="absolute inset-0 bg-black opacity-40"></div>
+    <div className="min-h-screen md:ml-72">
+      <section className=" h-[600px] bg-gradient-to-r from-purple-600 to-blue-500">
         <div className="relative h-full flex items-center justify-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -29,7 +27,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">

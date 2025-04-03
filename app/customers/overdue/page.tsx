@@ -79,7 +79,7 @@ export default function OverdueCustomersPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">Загрузка...</div>
         </div>
@@ -89,7 +89,7 @@ export default function OverdueCustomersPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-red-500">{error}</div>
         </div>
@@ -98,11 +98,11 @@ export default function OverdueCustomersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-gray-50 py-8 md:ml-72 ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 md:mt-0">
+        <div className="flex flex-col-reverse md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Клиенты с просроченной оплатой</h1>
+            <h1 className="text-lg font-bold text-gray-900 md:text-3xl">Клиенты с просроченной оплатой</h1>
             <p className="mt-2 text-sm text-gray-600">
               Клиенты, посетившие 7 и более занятий с момента последней оплаты
             </p>
@@ -120,20 +120,20 @@ export default function OverdueCustomersPage() {
             <p className="text-gray-500">Нет клиентов с просроченной оплатой</p>
           </div>
         ) : (
-          <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="bg-white shadow-2xl overflow-hidden sm:rounded-lg">
+            <table className="min-w-full divide-y divide-gray-200 md:text-sm">
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Клиент
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                     Группа
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                     Посещено занятий
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                     Последняя оплата
                   </th>
                   <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -154,7 +154,7 @@ export default function OverdueCustomersPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                       <div className="text-sm text-gray-900">
                         {customer.group ? (
                           <Link href={`/groups/${customer.group.id}`} className="text-indigo-600 hover:text-indigo-900">
@@ -165,10 +165,10 @@ export default function OverdueCustomersPage() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                       <div className="text-sm text-gray-900">{customer.attendanceCount}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                       <div className="text-sm text-gray-900">
                         {format(parseISO(customer.lastPaymentDate), 'd MMMM yyyy', { locale: ru })}
                       </div>
@@ -179,9 +179,14 @@ export default function OverdueCustomersPage() {
                           setSelectedCustomer(customer);
                           setShowPaymentModal(true);
                         }}
-                        className="text-green-600 hover:text-green-900"
+                        className=" bg-green-600 md:bg-transparent md:text-green-600 md:hover:text-green-900 p-2 rounded-md"
                       >
-                        Произвести оплату
+                        <span className="hidden md:block">Произвести оплату</span>
+                        <span className="block md:hidden">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </span>
                       </button>
                     </td>
                   </tr>

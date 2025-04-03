@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
+import { useState } from 'react';
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(true);
 
   const isActive = (path: string) => {
     if (path === '/customers/overdue') {
@@ -16,10 +17,17 @@ export default function Sidebar() {
     return pathname === path || pathname.startsWith(path + '/');
   };
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+  
+
   return (
-    <div className="w-72 bg-gradient-to-br from-purple-50 via-white to-blue-50 h-screen fixed left-0 top-0 border-r border-gray-100 shadow-2xl shadow-black/50">
+    <>
+    <div className={`w-72 bg-gradient-to-br from-purple-50 via-white to-blue-50 h-screen fixed left-0 top-0 border-r border-gray-100 shadow-2xl shadow-black/50 transition-all duration-300 transform md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:block z-100`}>
       <div className="p-8">
         <div className="flex items-center mb-12">
+          <Link href="/" className="flex items-center">
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center mr-3 shadow-lg">
             <svg
               className="w-7 h-7 text-white"
@@ -36,6 +44,7 @@ export default function Sidebar() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Art Studio</h1>
+          </Link>
         </div>
         
         <nav className="space-y-2">
@@ -108,7 +117,7 @@ export default function Sidebar() {
                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            Просроченные платежи
+            Предстоящие платежи
           </Link>
 
           <Link
@@ -136,10 +145,14 @@ export default function Sidebar() {
           </Link>
         </nav>
 
-        <div className="absolute bottom-8 left-8 right-8">
-          <div className="flex items-center text-sm text-gray-500 hover:text-purple-600 transition-colors duration-200 cursor-pointer">
+      </div>
+    </div>
+    <div className='fixed w-full flex justify-end p-4 m-0 z-20 md:hidden'>
+      <button onClick={toggleSidebar} className="p-2 rounded-lg bg-white shadow-lg">
+        {
+          !isOpen ? (
             <svg
-              className="w-5 h-5 mr-3"
+              className="w-6 h-6 text-gray-700"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -148,19 +161,28 @@ export default function Sidebar() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                d="M4 6h16M4 12h16M4 18h16"
               />
+            </svg>
+          ) : (
+            <svg
+              className="w-6 h-6 text-gray-700"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            Настройки
-          </div>
-        </div>
-      </div>
+          )
+        }
+
+      </button>
     </div>
+    </>
   );
 } 

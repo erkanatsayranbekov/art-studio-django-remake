@@ -72,12 +72,13 @@ export default function NewGroupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br froms-indigo-50 to-purple-50 py-12 md:ml-72">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Создание группы</h1>
-            <p className="text-gray-600">Заполните форму для создания новой группы</p>
+        <div className="flex flex-col-reverse md:flex-row justify-between items-center mb-8">
+          
+        <div className='text-center md:text-left'>
+            <h1 className="text-lg md:text-4xl mt-4 md:mt-0 font-bold text-gray-900 mb-2">Создание группы</h1>
+            <p className="text-gray-600 text-sm md:text-base">Заполните форму для создания новой группы</p>
           </div>
           <Link
             href="/groups"
@@ -179,9 +180,7 @@ export default function NewGroupPage() {
                     name="startTime"
                     id="startTime"
                     required
-                    step="3600"
-                    pattern="[0-2][0-9]:[0-5][0-9]"
-                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
+                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300 appearance-none"
                   />
                 </div>
               </div>
@@ -196,9 +195,7 @@ export default function NewGroupPage() {
                     name="endTime"
                     id="endTime"
                     required
-                    step="3600"
-                    pattern="[0-2][0-9]:[0-5][0-9]"
-                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
+                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300 appearance-none"
                   />
                 </div>
               </div>

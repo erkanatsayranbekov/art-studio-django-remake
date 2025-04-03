@@ -82,7 +82,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">Загрузка...</div>
         </div>
@@ -92,7 +92,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
 
   if (error || !group) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-red-500">{error || 'Группа не найдена'}</div>
         </div>
@@ -117,10 +117,9 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
   const formattedEndTime = format(parseISO(group.endTime), 'HH:mm');
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 pt-20 md:py-8 md:ml-72">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col gap-4 md:flex-row justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">{group.name}</h1>
             {isAuthenticated && (
               <div className="flex space-x-3">
@@ -128,20 +127,25 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
                   href={`/groups/${group.id}/edit`}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Редактировать
+                  <span className="hidden md:inline">Редактировать</span>
+                  <svg className="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
                 </Link>
                 <button
                   onClick={handleDelete}
                   className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
-                  Удалить
+                  <span className="hidden md:inline">Удалить</span>
+                  <svg className="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
                 </button>
               </div>
             )}
-          </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-2xl p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h2 className="text-lg font-medium text-gray-900 mb-4">Информация о группе</h2>
@@ -179,13 +183,16 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
 
         {isAuthenticated && (
           <>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900">Клиенты группы</h2>
               <Link
                 href="/customers/new"
                 className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Добавить клиента
+                <span className="hidden md:inline">Добавить клиента</span>
+                <svg className="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
               </Link>
             </div>
 
@@ -200,7 +207,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
                 {group.customers.map((customer) => (
                   <CustomerCard
                     key={customer.id}

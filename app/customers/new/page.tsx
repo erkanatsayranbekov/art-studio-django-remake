@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Group {
   id: string;
@@ -82,7 +83,7 @@ export default function NewCustomerPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">Загрузка...</div>
         </div>
@@ -91,16 +92,24 @@ export default function NewCustomerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Новый клиент</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Заполните форму для добавления нового клиента
-          </p>
+        <div className="mb-8 flex flex-col-reverse md:flex-row justify-between items-start md:items-center gap-4 mt-8 md:mt-0">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Новый клиент</h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Заполните форму для добавления нового клиента
+            </p>
+          </div>
+          <Link href="/customers" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Назад
+          </Link>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-sm rounded-lg p-6">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-2xl rounded-lg p-6 ">
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
               {error}
@@ -118,7 +127,8 @@ export default function NewCustomerPage() {
               required
               value={formData.firstName}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
+              placeholder='Введите имя'
+              className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
             />
           </div>
 
@@ -133,7 +143,8 @@ export default function NewCustomerPage() {
               required
               value={formData.lastName}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
+              placeholder='Введите фамилию'
+              className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
             />
           </div>
 
@@ -148,24 +159,11 @@ export default function NewCustomerPage() {
               required
               value={formData.phoneNumber}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
+              placeholder='Введите телефон'
+              className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
             />
           </div>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
-            />
-          </div>
 
           <div>
             <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700">
@@ -178,7 +176,7 @@ export default function NewCustomerPage() {
               required
               value={formData.dateOfBirth}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
+              className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300 appearance-none"
             />
           </div>
 
@@ -192,11 +190,11 @@ export default function NewCustomerPage() {
               required
               value={formData.groupId}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-black"
+              className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
             >
               <option value="">Выберите группу</option>
               {groups.map((group) => (
-                <option key={group.id} value={group.id}>
+                <option key={group.id} value={group.id} className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300">
                   {group.name}
                 </option>
               ))}

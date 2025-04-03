@@ -94,7 +94,7 @@ export default function EditCustomerPage({ params }: { params: Promise<{ id: str
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12 md:ml-72">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-gray-900">Загрузка...</div>
         </div>
@@ -104,7 +104,7 @@ export default function EditCustomerPage({ params }: { params: Promise<{ id: str
 
   if (error || !customer) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12 md:ml-72">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-gray-900">{error || 'Клиент не найден'}</div>
         </div>
@@ -113,12 +113,12 @@ export default function EditCustomerPage({ params }: { params: Promise<{ id: str
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 py-12 md:ml-72">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="flex flex-col-reverse mt-8 md:mt-0 md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Редактирование клиента</h1>
-            <p className="text-gray-600">Измените данные клиента</p>
+            <h1 className="text-lg md:text-4xl font-bold text-gray-900 mb-2">Редактирование клиента</h1>
+            <p className="text-gray-600 text-sm md:text-base">Измените данные клиента</p>
           </div>
           <Link
             href={`/customers/${customer.id}`}

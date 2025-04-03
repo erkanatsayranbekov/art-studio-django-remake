@@ -131,7 +131,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
 
   if (formLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">Загрузка...</div>
         </div>
@@ -141,7 +141,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
 
   if (!group) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-red-500">Группа не найдена</div>
         </div>
@@ -153,28 +153,25 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
   const selectedWeekdays = group.weekdays.split(', ');
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 md:ml-72">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Редактирование группы</h1>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setIsDeleteModalOpen(true)}
-              className="text-red-600 hover:text-red-500"
-            >
-              Удалить группу
-            </button>
+        <div className="flex flex-col-reverse gap-4 md:flex-row justify-between items-center mb-8">
+          <h1 className="text-lg md:text-4xl font-bold text-gray-900">Редактирование группы</h1>
+          <div className="flex space-x-4 mt-8">
             <Link
               href="/groups"
-              className="text-indigo-600 hover:text-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
             >
-              Назад к списку
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
             </Link>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-lg p-6">
-          <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-2xl p-8">
+          <div className="space-y-8">
+            
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Название группы
@@ -185,7 +182,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                 id="name"
                 required
                 defaultValue={group.name}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
               />
             </div>
 
@@ -199,7 +196,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                 rows={3}
                 required
                 defaultValue={group.description}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all resize-none border-2 border-gray-300"
               />
             </div>
 
@@ -207,17 +204,19 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Дни недели
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {Object.entries(DAYS_OF_WEEK).map(([key, value]) => (
-                  <label key={key} className="flex items-center space-x-2">
+                  <label key={key} className="relative flex items-center p-3 rounded-lg border-2 border-gray-300 hover:border-indigo-300 cursor-pointer transition-colors shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
                     <input
                       type="checkbox"
                       name="weekdays"
                       value={key}
                       defaultChecked={selectedWeekdays.includes(key)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="sr-only peer"
                     />
-                    <span className="text-sm text-gray-700">{value}</span>
+                    <div className="w-full text-sm text-gray-700 peer-checked:text-indigo-600 peer-checked:font-medium">
+                      {value}
+                    </div>
                   </label>
                 ))}
               </div>
@@ -234,7 +233,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                   id="startTime"
                   required
                   defaultValue={new Date(group.startTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                  className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
                 />
               </div>
 
@@ -248,7 +247,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                   id="endTime"
                   required
                   defaultValue={new Date(group.endTime).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                  className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
                 />
               </div>
             </div>
@@ -266,10 +265,10 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                   min="0"
                   step="0.01"
                   defaultValue={group.price}
-                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-gray-900"
+                  className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm">₽</span>
+                  <span className="text-gray-500 sm:text-sm">₸</span>
                 </div>
               </div>
             </div>
@@ -280,7 +279,7 @@ export default function EditGroupPage({ params }: { params: Promise<{ groupId: s
                 name="isPermanent"
                 id="isPermanent"
                 defaultChecked={group.isPermanent}
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 transition-colors"
               />
               <label htmlFor="isPermanent" className="ml-2 block text-sm text-gray-700">
                 Постоянная группа

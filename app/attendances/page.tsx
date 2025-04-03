@@ -139,7 +139,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen md:ml-72">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
       </div>
     );
@@ -147,7 +147,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen p-8 p-8">
+      <div className="flex items-center justify-center min-h-screen p-8 md:ml-72">
         <div className="text-red-500 text-center">
           <p className="text-lg font-medium">Ошибка загрузки данных</p>
           <p className="text-sm">{error}</p>
@@ -157,12 +157,12 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
   }
 
   return (
-    <div className="space-y-6 p-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Посещаемость</h1>
+    <div className="space-y-6 p-8 md:ml-72">
+      <div className="flex flex-col mt-8 md:mt-0 md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Посещаемость</h1>
         <Link
           href="/attendances/new"
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200"
+          className=" text-sm md:text-base px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200"
         >
           Отметить посещаемость
         </Link>
@@ -177,7 +177,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             <select
               value={selectedGroup}
               onChange={(e) => setSelectedGroup(e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
             >
               <option value="">Все группы</option>
               {groups.map((group) => (
@@ -195,7 +195,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             <select
               value={selectedCustomer}
               onChange={(e) => setSelectedCustomer(e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
             >
               <option value="">Все клиенты</option>
               {customers.map((customer) => (
@@ -213,7 +213,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
             >
               {months.map((month, index) => (
                 <option key={index+1} value={(index+1).toString()}>
@@ -230,7 +230,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
             >
               {years.map((year) => (
                 <option key={year} value={year}>
@@ -264,6 +264,7 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {attendances.map((attendance) => (
+                console.log(attendance),
                 <tr key={attendance.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link
@@ -289,12 +290,17 @@ export default function AttendancesPage({ params }: { params: Promise<{}> }) {
                       {getStatusText(attendance.status)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">
                     <Link
                       href={`/attendances/${attendance.id}/edit`}
-                      className="text-purple-600 hover:text-purple-900"
+                      className="text-purple-600 hover:text-purple-900 px-auto"
                     >
-                      Редактировать
+                     <span className="hidden md:block">Редактировать</span>
+                     <span className="block md:hidden">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                     </span>
                     </Link>
                   </td>
                 </tr>

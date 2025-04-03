@@ -49,7 +49,7 @@ export default function GroupsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center md:ml-72">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
@@ -57,7 +57,7 @@ export default function GroupsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center md:ml-72">
         <div className="text-red-500 text-center">
           <p className="text-xl font-semibold mb-2">Ошибка</p>
           <p>{error}</p>
@@ -67,7 +67,7 @@ export default function GroupsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen pt-20 md:pt-8 py-8 md:ml-72">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Группы</h1>

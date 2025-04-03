@@ -48,7 +48,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { isPresent } = body;
+    const { isPresent, status } = body;
 
     const attendance = await prisma.attendance.update({
       where: {
@@ -56,6 +56,7 @@ export async function PATCH(
       },
       data: {
         isPresent,
+        status,
       },
     });
 

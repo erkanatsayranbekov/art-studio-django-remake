@@ -71,13 +71,11 @@ export default function NewAttendancePage() {
 
     try {
       const attendanceRecords = Object.entries(attendances).map(([customerId, status]) => ({
-        customerId,
-        groupId: selectedGroup,
-        date,
+        customerId: parseInt(customerId),
+        groupId: parseInt(selectedGroup),
+        date: date,
         status,
       }));
-
-      console.log('Sending attendance records:', attendanceRecords);
 
       const response = await fetch('/api/attendances', {
         method: 'POST',
@@ -88,21 +86,13 @@ export default function NewAttendancePage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        console.error('Server response:', {
-          status: response.status,
-          statusText: response.statusText,
-          errorData
-        });
-        throw new Error(errorData?.message || 'Failed to save attendance');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save attendance');
       }
 
-      const data = await response.json();
-      console.log('Success response:', data);
       router.push('/attendances');
     } catch (err) {
-      console.error('Error saving attendance:', err);
-      setError(err instanceof Error ? err.message : 'Ошибка сохранения посещаемости');
+      setError(err instanceof Error ? err.message : 'Failed to save attendance');
     } finally {
       setLoading(false);
     }
@@ -129,7 +119,7 @@ export default function NewAttendancePage() {
   };
 
   return (
-    <div className="space-y-6 p-8">
+    <div className="space-y-6 p-8 md:ml-72">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Отметить посещаемость</h1>
         <button
@@ -151,7 +141,7 @@ export default function NewAttendancePage() {
                 value={selectedGroup}
                 onChange={(e) => setSelectedGroup(e.target.value)}
                 required
-                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
               >
                 <option value="">Выберите группу</option>
                 {groups.map((group) => (
@@ -171,7 +161,7 @@ export default function NewAttendancePage() {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
-                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black"
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 text-black p-2"
               />
             </div>
           </div>
@@ -204,7 +194,12 @@ export default function NewAttendancePage() {
                             : 'bg-gray-100 text-gray-600 hover:bg-green-50'
                         }`}
                       >
-                        Присутствует
+                        <span className="hidden md:block">Присутствует</span>
+                        <span className="block md:hidden">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </span>
                       </button>
                       <button
                         type="button"
@@ -215,18 +210,12 @@ export default function NewAttendancePage() {
                             : 'bg-gray-100 text-gray-600 hover:bg-red-50'
                         }`}
                       >
-                        Отсутствует
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleStatusChange(customer.id, 'EXCUSED')}
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          attendances[customer.id] === 'EXCUSED'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-gray-100 text-gray-600 hover:bg-yellow-50'
-                        }`}
-                      >
-                        Уважительная причина
+                        <span className="hidden md:block">Отсутствует</span>
+                        <span className="block md:hidden">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </span>
                       </button>
                     </div>
                   </div>
