@@ -168,7 +168,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Стоимость</dt>
-                  <dd className="mt-1 text-sm text-gray-900">{group.price} ₽</dd>
+                  <dd className="mt-1 text-sm text-gray-900">{group.price} ₸</dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Тип группы</dt>
