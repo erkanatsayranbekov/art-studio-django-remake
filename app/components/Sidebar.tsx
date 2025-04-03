@@ -3,9 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+
 export default function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
+  const isAuthenticated = !!session;
 
   const isActive = (path: string) => {
     if (path === '/customers/overdue') {
@@ -72,11 +76,13 @@ export default function Sidebar() {
             Группы
           </Link>
 
+          { isAuthenticated && (
+            <>
           <Link
             href="/customers"
             className={`flex items-center px-4 py-3 text-sm rounded-xl transition-all duration-200 ${
               isActive('/customers')
-                ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
+              ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
                 : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
             }`}
           >
@@ -143,6 +149,8 @@ export default function Sidebar() {
             </svg>
             Посещаемость
           </Link>
+          </>
+          )}
         </nav>
 
       </div>
