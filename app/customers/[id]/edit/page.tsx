@@ -193,7 +193,7 @@ export default function EditCustomerPage({ params }: { params: Promise<{ id: str
                     id="dateOfBirth"
                     defaultValue={customer.dateOfBirth.split('T')[0]}
                     required
-                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300"
+                    className="block w-full rounded-lg bg-gray-50 px-4 py-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 sm:text-sm text-gray-900 transition-all border-2 border-gray-300 appearance-none"
                   />
                 </div>
               </div>
