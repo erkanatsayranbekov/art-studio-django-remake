@@ -2,14 +2,18 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
-  const isAuthenticated = !!session;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    setIsAuthenticated(Cookies.get('auth-token') !== undefined);
+  }, [isOpen]);
+
 
   const isActive = (path: string) => {
     if (path === '/customers/overdue') {
@@ -23,6 +27,12 @@ export default function Sidebar() {
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('auth-token');
+    setIsAuthenticated(false);
+    window.location.reload();
   };
   
 
@@ -76,13 +86,12 @@ export default function Sidebar() {
             Группы
           </Link>
 
-          { isAuthenticated && (
-            <>
+
           <Link
             href="/customers"
             className={`flex items-center px-4 py-3 text-sm rounded-xl transition-all duration-200 ${
               isActive('/customers')
-              ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
+                ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
                 : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
             }`}
           >
@@ -149,7 +158,55 @@ export default function Sidebar() {
             </svg>
             Посещаемость
           </Link>
-          </>
+
+          { !isAuthenticated ? (
+          <Link
+            href="/login"
+            className={`flex items-center px-4 py-3 text-sm rounded-xl transition-all duration-200 ${
+              isActive('/login')
+                ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
+                : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
+            }`}>
+            <svg
+              className={`w-5 h-5 mr-3 ${isActive('/login') ? 'text-white' : 'text-purple-500'}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+              />
+            </svg>
+            Войти
+          </Link>
+          ): (
+            <Link
+              href="/logout"
+              className={`flex items-center px-4 py-3 text-sm rounded-xl transition-all duration-200 ${
+                isActive('/logout')
+                  ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg transform scale-105'
+                  : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
+              }`}
+              onClick={handleLogout}
+            >
+              <svg
+                className={`w-5 h-5 mr-3 ${isActive('/logout') ? 'text-white' : 'text-purple-500'}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+              Выйти
+            </Link>
           )}
         </nav>
 
